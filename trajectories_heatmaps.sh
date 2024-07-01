@@ -1,0 +1,38 @@
+# Group the sub-trajectories into the main trajectories.
+# Enhancers.
+cat enhancer_10000_imputation_traj_peak_peaksplit.bed enhancer_11000_imputation_traj_peak_peaksplit.bed enhancer_11100_imputation_traj_peak_peaksplit.bed\
+enhancer_11110_imputation_traj_peak_peaksplit.bed > enhancer_early_imputation_traj_peak_peaksplit.bed
+
+cat enhancer_11111_imputation_traj_peak_peaksplit.bed > enhancer_invariant_imputation_traj_peak_peaksplit.bed
+
+cat enhancer_01111_imputation_traj_peak_peaksplit.bed enhancer_00111_imputation_traj_peak_peaksplit.bed enhancer_00011_imputation_traj_peak_peaksplit.bed\
+enhancer_00001_imputation_traj_peak_peaksplit.bed > enhancer_neuronal_imputation_traj_peak_peaksplit.bed
+
+cat enhancer_01000_imputation_traj_peak_peaksplit.bed enhancer_00100_imputation_traj_peak_peaksplit.bed enhancer_00010_imputation_traj_peak_peaksplit.bed\
+enhancer_01100_imputation_traj_peak_peaksplit.bed enhancer_00110_imputation_traj_peak_peaksplit.bed enhancer_01110_imputation_traj_peak_peaksplit.bed > enhancer_transcient_imputation_traj_peak_peaksplit.bed
+
+# Promoters.
+cat promoter_10000_imputation_traj_peak_peaksplit.bed promoter_11000_imputation_traj_peak_peaksplit.bed promoter_11100_imputation_traj_peak_peaksplit.bed\
+promoter_11110_imputation_traj_peak_peaksplit.bed > promoter_early_imputation_traj_peak_peaksplit.bed
+
+cat promoter_11111_imputation_traj_peak_peaksplit.bed > promoter_invariant_imputation_traj_peak_peaksplit.bed
+
+cat promoter_01111_imputation_traj_peak_peaksplit.bed promoter_00111_imputation_traj_peak_peaksplit.bed promoter_00011_imputation_traj_peak_peaksplit.bed\
+
+promoter_00001_imputation_traj_peak_peaksplit.bed > promoter_neuronal_imputation_traj_peak_peaksplit.bed
+
+cat promoter_01000_imputation_traj_peak_peaksplit.bed promoter_00100_imputation_traj_peak_peaksplit.bed promoter_00010_imputation_traj_peak_peaksplit.bed\
+promoter_01100_imputation_traj_peak_peaksplit.bed promoter_00110_imputation_traj_peak_peaksplit.bed promoter_01110_imputation_traj_peak_peaksplit.bed > promoter_transcient_imputation_traj_peak_peaksplit.bed
+
+
+# Plot the heatmaps.
+
+module load Miniconda3/4.12.0
+computeMatrix reference-point -p 200 -S clusterNSC.bam.bw clusterIPC.bam.bw clusterPN1.bam.bw clusterPN2.bam.bw clusterPN3.bam.bw \
+-R promoter_invariant_imputation_traj_peak_peaksplit.bed enhancer_invariant_imputation_traj_peak_peaksplit.bed promoter_early_imputation_traj_peak_peaksplit.bed\
+enhancer_early_imputation_traj_peak_peaksplit.bed promoter_transcient_imputation_traj_peak_peaksplit.bed enhancer_transcient_imputation_traj_peak_peaksplit.bed\
+promoter_neuronal_imputation_traj_peak_peaksplit.bed enhancer_neuronal_imputation_traj_peak_peaksplit.bed -out summarized.imputation.matrix_clusters_peaksplit.mat.750.tmp -a 750 -b 750\
+--sortUsingSamples 1 2 3 4 5
+
+plotHeatmap --matrixFile summarized.imputation.matrix_clusters_peaksplit.mat.750.tmp --outFileName summarized.imputation.matrix_clusters_peaksplit.mat.750.tmp.pdf --heatmapHeight 100\
+--colorMap viridis -max 50 --whatToShow 'heatmap and colorbar' --plotFileFormat pdf --sortUsingSamples 1 2 3 4 5
